@@ -1,9 +1,8 @@
-package com.cristian.uberclonecliente
+package com.cristian.uberclonecliente.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.WindowManager
 import android.widget.Toast
 import com.cristian.uberclonecliente.databinding.ActivityMainBinding

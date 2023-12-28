@@ -1,16 +1,18 @@
-package com.cristian.uberclonecliente
+package com.cristian.uberclonecliente.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.ContactsContract.CommonDataKinds.Email
+import android.util.Log
 import android.view.WindowManager
 import android.widget.Toast
 import com.cristian.uberclonecliente.databinding.ActivityRegisterBinding
+import com.cristian.uberclonecliente.providers.AuthProvider
 
 class RegisterActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
+    private val authProvider = AuthProvider()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +35,15 @@ class RegisterActivity : AppCompatActivity() {
         val confirmpassword = binding.textoPasswordConfirmRegistro.text.toString()
 
         if (isValidForm(nombre, apellido, telefono, email, password, confirmpassword)){
-            Toast.makeText(this, "El formulario es valido", Toast.LENGTH_SHORT).show()
+            authProvider.register(email, password).addOnCompleteListener {
+                if(it.isSuccessful){
+                    Toast.makeText(this@RegisterActivity, "Registro exitoso", Toast.LENGTH_LONG).show()
+                }
+                else{
+                    Toast.makeText(this@RegisterActivity, "Registro fallido ${it.exception.toString()}", Toast.LENGTH_LONG).show()
+                    Log.d("FIREBASE", "Error ${it.exception.toString()}")
+                }
+            }
         }
     }
 
